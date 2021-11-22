@@ -6,17 +6,17 @@
 #    By: vduriez <vduriez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/12 16:02:55 by vduriez           #+#    #+#              #
-#    Updated: 2021/11/12 18:58:57 by vduriez          ###   ########.fr        #
+#    Updated: 2021/11/22 00:31:29 by vduriez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
-CC = gcc
+CC = clang
 
-CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
-INCLUDE = -lmlx -Lminilibx -lX11 -lXext
+INCLUDE = -Lminilibx -lX11 -lXext -lmlx -lm
 
 SRC =	fdf.c						\
 		srcs/get_next_line.c		\
@@ -26,14 +26,12 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIB)
-	$(CC) -o $(NAME) $(OBJ) $(INCLUDE) $(LIB)
-
-$(LIB):
+$(NAME): $(OBJ)
 	make -C ./minilibx
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(INCLUDE) $(LIB)
 
 clean:
-	rm -f $(OBJ)
+	rm -rf $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
